@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main(void)
+{
+  int x = 0;
+  unsigned char HexChar;
+
+  printf("Enter an integer in hexadecimal: ");
+  fflush(stdout);
+
+  read(STDIN_FILENO, &HexChar, 1);
+  while (HexChar != '\n') {
+    x = x << 4;
+    if (HexChar > '9') {
+      HexChar = HexChar + 9;
+    }
+    HexChar = HexChar & 0x0f;
+    x = x + (int)HexChar;
+    read(STDIN_FILENO, &HexChar, 1);
+  }
+   
+  printf("You entered %#010x = %d (decimal)\n\n", x, x);
+
+  return 0;
+}
